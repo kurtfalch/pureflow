@@ -1,0 +1,41 @@
+{
+    "title": "orders",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "user_id": {
+            "type": "string",
+            "description": "User ID"
+        },
+        "items": {
+            "type": "string",
+            "description": "JSON string of order items"
+        },
+        "total_amount": {
+            "type": "number",
+            "description": "Total order amount in NOK"
+        },
+        "status": {
+            "type": "string",
+            "description": "Order status: pending, paid, shipped, cancelled"
+        },
+        "stripe_session_id": {
+            "type": "string",
+            "description": "Stripe checkout session ID"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Order creation timestamp"
+        }
+    },
+    "required": [
+        "id",
+        "user_id",
+        "total_amount",
+        "status"
+    ]
+}

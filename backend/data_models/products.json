@@ -1,0 +1,55 @@
+{
+    "title": "products",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer",
+            "description": "Primary key, auto-increment"
+        },
+        "name": {
+            "type": "string",
+            "description": "Product name"
+        },
+        "description": {
+            "type": "string",
+            "description": "Full product description"
+        },
+        "short_description": {
+            "type": "string",
+            "description": "Short product tagline"
+        },
+        "price": {
+            "type": "number",
+            "description": "Base price in NOK"
+        },
+        "original_price": {
+            "type": "number",
+            "description": "Original price before discount in NOK"
+        },
+        "image_url": {
+            "type": "string",
+            "description": "Main product image URL"
+        },
+        "image_url_2": {
+            "type": "string",
+            "description": "Second product image URL"
+        },
+        "image_url_3": {
+            "type": "string",
+            "description": "Third product image URL"
+        },
+        "features": {
+            "type": "string",
+            "description": "JSON string of product features"
+        },
+        "category": {
+            "type": "string",
+            "description": "Product category"
+        }
+    },
+    "required": [
+        "id",
+        "name",
+        "price"
+    ]
+}
