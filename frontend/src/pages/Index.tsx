@@ -19,8 +19,8 @@ interface Product {
   category: string;
 }
 
-const heroImage = 'https://mgx-backend-cdn.metadl.com/generate/images/987851/2026-02-26/f46c0ad1-fa15-4d1e-bbab-c55702b0754a.png';
-const lifestyleImage = 'https://mgx-backend-cdn.metadl.com/generate/images/987851/2026-02-26/d530b82a-8344-498a-882f-8d0f3031a11b.png';
+const heroImage = '/assets/pureflow8.jpg';
+const lifestyleImage = '/assets/pureflow8.jpg';
 const waterDropletImage = 'https://mgx-backend-cdn.metadl.com/generate/images/987851/2026-02-26/c4ebbcc8-e8e7-495a-922d-2ec3702dc541.png';
 const bathroomImage = 'https://mgx-backend-cdn.metadl.com/generate/images/987851/2026-02-26/fe71b4af-cefb-4dda-a936-ba945e74a513.png';
 
