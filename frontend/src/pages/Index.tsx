@@ -188,7 +188,7 @@ export default function IndexPage() {
               <div className="relative">
                 <div className="absolute -inset-6 bg-[#C9A96E]/10 rounded-3xl blur-2xl" />
                 <img
-                  src="/assets/pureflow4.jpg"
+                  src="/assets/pureflow8b.jpg"
                   alt="Pure Flow dusjhode – nærbilde"
                   className="relative w-full max-w-md rounded-2xl shadow-2xl shadow-[#C9A96E]/10 object-cover"
                 />
