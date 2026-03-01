@@ -1,4 +1,4 @@
-import { Check, Star } from 'lucide-react';
+import { Check, Star, RefreshCw } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 
 interface PricingSectionProps {
@@ -7,59 +7,44 @@ interface PricingSectionProps {
   imageUrl: string;
 }
 
-const packages = [
-  {
-    type: 'single' as const,
-    label: 'Kjøp 1',
-    subtitle: 'Standardpris',
-    price: 1177,
-    originalPrice: 1766,
-    perUnit: 1177,
-    savings: null,
-    savingsPercent: null,
-    popular: false,
-    qty: 1,
-  },
-  {
-    type: 'double' as const,
-    label: 'Kjøp 2',
-    subtitle: 'SPAR 117,70 kr',
-    price: 2236.30,
-    originalPrice: 2354,
-    perUnit: 1118.15,
-    savings: 117.70,
-    savingsPercent: 5,
-    popular: true,
-    qty: 2,
-  },
-  {
-    type: 'triple' as const,
-    label: 'Kjøp 3',
-    subtitle: 'SPAR 353,10 kr',
-    price: 3177.90,
-    originalPrice: 3531,
-    perUnit: 1059.30,
-    savings: 353.10,
-    savingsPercent: 10,
-    popular: false,
-    qty: 3,
-  },
-];
-
 const formatPrice = (price: number) =>
-  new Intl.NumberFormat('nb-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(price);
+  new Intl.NumberFormat('nb-NO', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(price);
 
 export default function PricingSection({ productId, productName, imageUrl }: PricingSectionProps) {
   const { addItem } = useCart();
 
-  const handleAddToCart = (pkg: typeof packages[0]) => {
+  const handleAddSingle = () => {
     addItem({
       productId,
       productName,
-      packageType: pkg.type,
-      packageLabel: `${pkg.label} (${pkg.qty} stk)`,
-      unitPrice: pkg.price,
-      originalPrice: pkg.originalPrice,
+      packageType: 'single',
+      packageLabel: 'Kjøp 1 (1 stk)',
+      unitPrice: 1077,
+      originalPrice: 1077,
+      imageUrl,
+    });
+  };
+
+  const handleAddDouble = () => {
+    addItem({
+      productId,
+      productName,
+      packageType: 'double',
+      packageLabel: 'Kjøp 2 (2 stk)',
+      unitPrice: 1900,
+      originalPrice: 2154,
+      imageUrl,
+    });
+  };
+
+  const handleAddSubscription = () => {
+    addItem({
+      productId,
+      productName,
+      packageType: 'subscription',
+      packageLabel: 'Filterabonnement (4 filtre/mnd)',
+      unitPrice: 225,
+      originalPrice: 225,
       imageUrl,
     });
   };
@@ -72,76 +57,130 @@ export default function PricingSection({ productId, productName, imageUrl }: Pri
             Velg din <span className="text-[#C9A96E]">pakke</span>
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            Jo flere du kjøper, jo mer sparer du. Perfekt som gave eller for å ha ekstra filter tilgjengelig.
+            Velg mellom enkeltdusjhode, 2-pakke eller et praktisk filterabonnement.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {packages.map((pkg) => (
-            <div
-              key={pkg.type}
-              className={`relative rounded-2xl p-6 sm:p-8 transition-all duration-300 hover:scale-[1.02] ${
-                pkg.popular
-                  ? 'bg-gradient-to-b from-[#C9A96E]/20 to-[#C9A96E]/5 border-2 border-[#C9A96E] shadow-lg shadow-[#C9A96E]/20'
-                  : 'bg-[#1A3A5C]/40 border border-gray-700/50 hover:border-[#C9A96E]/40'
-              }`}
-            >
-              {pkg.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#C9A96E] text-[#0C1B2A] text-xs font-bold px-4 py-1.5 rounded-full flex items-center gap-1">
-                  <Star className="w-3 h-3 fill-current" /> MEST POPULÆRE
-                </div>
-              )}
+          {/* Single */}
+          <div className="relative rounded-2xl p-6 sm:p-8 transition-all duration-300 hover:scale-[1.02] bg-[#1A3A5C]/40 border border-gray-700/50 hover:border-[#C9A96E]/40">
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-white mb-1">Kjøp 1</h3>
+              <p className="text-sm text-[#C9A96E] font-medium mb-6">Standardpris</p>
 
-              <div className="text-center">
-                <h3 className="text-xl font-bold text-white mb-1">{pkg.label}</h3>
-                <p className="text-sm text-[#C9A96E] font-medium mb-6">{pkg.subtitle}</p>
-
-                {pkg.savingsPercent && (
-                  <div className="inline-block bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full mb-4">
-                    Du sparer {pkg.savingsPercent}%
-                  </div>
-                )}
-
-                <div className="mb-2">
-                  <span className="text-4xl font-bold text-white">{formatPrice(pkg.perUnit)}</span>
-                  <span className="text-gray-400 text-sm ml-1">kr/stk</span>
-                </div>
-
-                {pkg.type !== 'single' && (
-                  <p className="text-gray-500 text-sm line-through mb-6">{formatPrice(pkg.originalPrice / pkg.qty)} kr/stk</p>
-                )}
-                {pkg.type === 'single' && (
-                  <p className="text-gray-500 text-sm line-through mb-6">{formatPrice(pkg.originalPrice)} kr</p>
-                )}
-
-                <div className="space-y-3 mb-8 text-left">
-                  {[
-                    'Flertrinnsfiltreringsteknologi',
-                    'VC Plant Fragrance Cartridge',
-                    'Høytrykks vannstrøm',
-                    'Universaltilkobling',
-                    pkg.qty > 1 ? `${pkg.qty} dusjhoder inkludert` : 'Gratis frakt',
-                  ].map((feature, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-[#C9A96E] flex-shrink-0" />
-                      <span className="text-gray-300 text-sm">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <button
-                  onClick={() => handleAddToCart(pkg)}
-                  className={`w-full py-3.5 rounded-xl font-semibold transition-all duration-300 ${
-                    pkg.popular
-                      ? 'bg-[#C9A96E] hover:bg-[#B8944D] text-[#0C1B2A] shadow-lg shadow-[#C9A96E]/30'
-                      : 'bg-white/10 hover:bg-[#C9A96E] text-white hover:text-[#0C1B2A] border border-gray-600 hover:border-[#C9A96E]'
-                  }`}
-                >
-                  Legg i handlekurv
-                </button>
+              <div className="mb-2">
+                <span className="text-4xl font-bold text-white">{formatPrice(1077)}</span>
+                <span className="text-gray-400 text-sm ml-1">kr</span>
               </div>
+              <p className="text-gray-500 text-sm mb-6">&nbsp;</p>
+
+              <div className="space-y-3 mb-8 text-left">
+                {[
+                  'Flertrinnsfiltreringsteknologi',
+                  'VC Plant Fragrance Cartridge',
+                  'Høytrykks vannstrøm',
+                  'Universaltilkobling',
+                  'Gratis frakt',
+                ].map((feature, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#C9A96E] flex-shrink-0" />
+                    <span className="text-gray-300 text-sm">{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={handleAddSingle}
+                className="w-full py-3.5 rounded-xl font-semibold transition-all duration-300 bg-white/10 hover:bg-[#C9A96E] text-white hover:text-[#0C1B2A] border border-gray-600 hover:border-[#C9A96E]"
+              >
+                Legg i handlekurv
+              </button>
             </div>
-          ))}
+          </div>
+
+          {/* Double – Most Popular */}
+          <div className="relative rounded-2xl p-6 sm:p-8 transition-all duration-300 hover:scale-[1.02] bg-gradient-to-b from-[#C9A96E]/20 to-[#C9A96E]/5 border-2 border-[#C9A96E] shadow-lg shadow-[#C9A96E]/20">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#C9A96E] text-[#0C1B2A] text-xs font-bold px-4 py-1.5 rounded-full flex items-center gap-1">
+              <Star className="w-3 h-3 fill-current" /> MEST POPULÆRE
+            </div>
+
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-white mb-1">Kjøp 2</h3>
+              <p className="text-sm text-[#C9A96E] font-medium mb-6">Spar 254 kr</p>
+
+              <div className="inline-block bg-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full mb-4">
+                Du sparer 12%
+              </div>
+
+              <div className="mb-2">
+                <span className="text-4xl font-bold text-white">{formatPrice(950)}</span>
+                <span className="text-gray-400 text-sm ml-1">kr/stk</span>
+              </div>
+              <p className="text-gray-500 text-sm mb-6">Totalt {formatPrice(1900)} kr</p>
+
+              <div className="space-y-3 mb-8 text-left">
+                {[
+                  'Flertrinnsfiltreringsteknologi',
+                  'VC Plant Fragrance Cartridge',
+                  'Høytrykks vannstrøm',
+                  'Universaltilkobling',
+                  '2 dusjhoder inkludert',
+                ].map((feature, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#C9A96E] flex-shrink-0" />
+                    <span className="text-gray-300 text-sm">{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={handleAddDouble}
+                className="w-full py-3.5 rounded-xl font-semibold transition-all duration-300 bg-[#C9A96E] hover:bg-[#B8944D] text-[#0C1B2A] shadow-lg shadow-[#C9A96E]/30"
+              >
+                Legg i handlekurv
+              </button>
+            </div>
+          </div>
+
+          {/* Subscription */}
+          <div className="relative rounded-2xl p-6 sm:p-8 transition-all duration-300 hover:scale-[1.02] bg-[#1A3A5C]/40 border border-gray-700/50 hover:border-[#C9A96E]/40">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-emerald-500 text-white text-xs font-bold px-4 py-1.5 rounded-full flex items-center gap-1">
+              <RefreshCw className="w-3 h-3" /> ABONNEMENT
+            </div>
+
+            <div className="text-center">
+              <h3 className="text-xl font-bold text-white mb-1">Filterabonnement</h3>
+              <p className="text-sm text-[#C9A96E] font-medium mb-6">Alltid rene filtre</p>
+
+              <div className="mb-2">
+                <span className="text-4xl font-bold text-white">{formatPrice(225)}</span>
+                <span className="text-gray-400 text-sm ml-1">kr/mnd</span>
+              </div>
+              <p className="text-gray-500 text-sm mb-6">4 filtre levert hver måned</p>
+
+              <div className="space-y-3 mb-8 text-left">
+                {[
+                  '4 filtre per måned (1 per uke)',
+                  'Automatisk levering til døren',
+                  'Alltid friskt, rent vann',
+                  'Avbestill når som helst',
+                  'Gratis frakt på alle leveranser',
+                ].map((feature, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                    <span className="text-gray-300 text-sm">{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={handleAddSubscription}
+                className="w-full py-3.5 rounded-xl font-semibold transition-all duration-300 bg-emerald-500/20 hover:bg-emerald-500 text-emerald-400 hover:text-white border border-emerald-500/40 hover:border-emerald-500"
+              >
+                Start abonnement
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

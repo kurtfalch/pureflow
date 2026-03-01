@@ -3,7 +3,7 @@ import React, { createContext, useContext, useState, useCallback } from 'react';
 export interface CartItem {
   productId: number;
   productName: string;
-  packageType: 'single' | 'double' | 'triple';
+  packageType: 'single' | 'double' | 'triple' | 'subscription';
   packageLabel: string;
   quantity: number;
   unitPrice: number;

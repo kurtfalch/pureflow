@@ -612,7 +612,7 @@ export default function IndexPage() {
             onClick={scrollToPricing}
             className="bg-[#C9A96E] hover:bg-[#B8944D] text-[#0C1B2A] font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 shadow-lg shadow-[#C9A96E]/30 inline-flex items-center gap-2"
           >
-            Bestill nå – fra 1 059 kr <ArrowRight className="w-5 h-5" />
+            Bestill nå – fra 1 077 kr <ArrowRight className="w-5 h-5" />
           </button>
         </div>
       </section>
