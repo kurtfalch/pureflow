@@ -9,81 +9,75 @@ from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database import get_db
-from services.products import ProductsService
+from services.support_messages import Support_messagesService
 
 # Set up logging
 logger = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/api/v1/entities/products", tags=["products"])
+router = APIRouter(prefix="/api/v1/entities/support_messages", tags=["support_messages"])
 
 
 # ---------- Pydantic Schemas ----------
-class ProductsData(BaseModel):
+class Support_messagesData(BaseModel):
     """Entity data schema (for create/update)"""
     name: str
-    price: float
-    description: str = None
-    category: str = None
-    image_url: str = None
+    email: str
+    message: str
     created_at: Optional[datetime] = None
 
 
-class ProductsUpdateData(BaseModel):
+class Support_messagesUpdateData(BaseModel):
     """Update entity data (partial updates allowed)"""
     name: Optional[str] = None
-    price: Optional[float] = None
-    description: Optional[str] = None
-    category: Optional[str] = None
-    image_url: Optional[str] = None
+    email: Optional[str] = None
+    message: Optional[str] = None
     created_at: Optional[datetime] = None
 
 
-class ProductsResponse(BaseModel):
+class Support_messagesResponse(BaseModel):
     """Entity response schema"""
     id: int
     name: str
-    price: float
-    description: Optional[str] = None
-    category: Optional[str] = None
-    image_url: Optional[str] = None
+    email: str
+    message: str
     created_at: Optional[datetime] = None
 
     class Config:
         from_attributes = True
 
 
-class ProductsListResponse(BaseModel):
+class Support_messagesListResponse(BaseModel):
     """List response schema"""
-    items: List[ProductsResponse]
+    items: List[Support_messagesResponse]
     total: int
     skip: int
     limit: int
 
 
-class ProductsBatchCreateRequest(BaseModel):
+class Support_messagesBatchCreateRequest(BaseModel):
     """Batch create request"""
-    items: List[ProductsData]
+    items: List[Support_messagesData]
 
 
-class ProductsBatchUpdateItem(BaseModel):
+class Support_messagesBatchUpdateItem(BaseModel):
     """Batch update item"""
     id: int
-    updates: ProductsUpdateData
+    updates: Support_messagesUpdateData
 
 
-class ProductsBatchUpdateRequest(BaseModel):
+class Support_messagesBatchUpdateRequest(BaseModel):
     """Batch update request"""
-    items: List[ProductsBatchUpdateItem]
+    items: List[Support_messagesBatchUpdateItem]
 
 
-class ProductsBatchDeleteRequest(BaseModel):
+class Support_messagesBatchDeleteRequest(BaseModel):
     """Batch delete request"""
     ids: List[int]
 
 
 # ---------- Routes ----------
-@router.get("", response_model=ProductsListResponse)
-async def query_productss(
+@router.get("", response_model=Support_messagesListResponse)
+async def query_support_messagess(
     query: str = Query(None, description="Query conditions (JSON string)"),
     sort: str = Query(None, description="Sort field (prefix with '-' for descending)"),
     skip: int = Query(0, ge=0, description="Number of records to skip"),
@@ -91,10 +85,10 @@ async def query_productss(
     fields: str = Query(None, description="Comma-separated list of fields to return"),
     db: AsyncSession = Depends(get_db),
 ):
-    """Query productss with filtering, sorting, and pagination"""
-    logger.debug(f"Querying productss: query={query}, sort={sort}, skip={skip}, limit={limit}, fields={fields}")
+    """Query support_messagess with filtering, sorting, and pagination"""
+    logger.debug(f"Querying support_messagess: query={query}, sort={sort}, skip={skip}, limit={limit}, fields={fields}")
     
-    service = ProductsService(db)
+    service = Support_messagesService(db)
     try:
         # Parse query JSON if provided
         query_dict = None
@@ -110,17 +104,17 @@ async def query_productss(
             query_dict=query_dict,
             sort=sort,
         )
-        logger.debug(f"Found {result['total']} productss")
+        logger.debug(f"Found {result['total']} support_messagess")
         return result
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Error querying productss: {str(e)}", exc_info=True)
+        logger.error(f"Error querying support_messagess: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
-@router.get("/all", response_model=ProductsListResponse)
-async def query_productss_all(
+@router.get("/all", response_model=Support_messagesListResponse)
+async def query_support_messagess_all(
     query: str = Query(None, description="Query conditions (JSON string)"),
     sort: str = Query(None, description="Sort field (prefix with '-' for descending)"),
     skip: int = Query(0, ge=0, description="Number of records to skip"),
@@ -128,10 +122,10 @@ async def query_productss_all(
     fields: str = Query(None, description="Comma-separated list of fields to return"),
     db: AsyncSession = Depends(get_db),
 ):
-    # Query productss with filtering, sorting, and pagination without user limitation
-    logger.debug(f"Querying productss: query={query}, sort={sort}, skip={skip}, limit={limit}, fields={fields}")
+    # Query support_messagess with filtering, sorting, and pagination without user limitation
+    logger.debug(f"Querying support_messagess: query={query}, sort={sort}, skip={skip}, limit={limit}, fields={fields}")
 
-    service = ProductsService(db)
+    service = Support_messagesService(db)
     try:
         # Parse query JSON if provided
         query_dict = None
@@ -147,72 +141,72 @@ async def query_productss_all(
             query_dict=query_dict,
             sort=sort
         )
-        logger.debug(f"Found {result['total']} productss")
+        logger.debug(f"Found {result['total']} support_messagess")
         return result
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Error querying productss: {str(e)}", exc_info=True)
+        logger.error(f"Error querying support_messagess: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
-@router.get("/{id}", response_model=ProductsResponse)
-async def get_products(
+@router.get("/{id}", response_model=Support_messagesResponse)
+async def get_support_messages(
     id: int,
     fields: str = Query(None, description="Comma-separated list of fields to return"),
     db: AsyncSession = Depends(get_db),
 ):
-    """Get a single products by ID"""
-    logger.debug(f"Fetching products with id: {id}, fields={fields}")
+    """Get a single support_messages by ID"""
+    logger.debug(f"Fetching support_messages with id: {id}, fields={fields}")
     
-    service = ProductsService(db)
+    service = Support_messagesService(db)
     try:
         result = await service.get_by_id(id)
         if not result:
-            logger.warning(f"Products with id {id} not found")
-            raise HTTPException(status_code=404, detail="Products not found")
+            logger.warning(f"Support_messages with id {id} not found")
+            raise HTTPException(status_code=404, detail="Support_messages not found")
         
         return result
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Error fetching products {id}: {str(e)}", exc_info=True)
+        logger.error(f"Error fetching support_messages {id}: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
-@router.post("", response_model=ProductsResponse, status_code=201)
-async def create_products(
-    data: ProductsData,
+@router.post("", response_model=Support_messagesResponse, status_code=201)
+async def create_support_messages(
+    data: Support_messagesData,
     db: AsyncSession = Depends(get_db),
 ):
-    """Create a new products"""
-    logger.debug(f"Creating new products with data: {data}")
+    """Create a new support_messages"""
+    logger.debug(f"Creating new support_messages with data: {data}")
     
-    service = ProductsService(db)
+    service = Support_messagesService(db)
     try:
         result = await service.create(data.model_dump())
         if not result:
-            raise HTTPException(status_code=400, detail="Failed to create products")
+            raise HTTPException(status_code=400, detail="Failed to create support_messages")
         
-        logger.info(f"Products created successfully with id: {result.id}")
+        logger.info(f"Support_messages created successfully with id: {result.id}")
         return result
     except ValueError as e:
-        logger.error(f"Validation error creating products: {str(e)}")
+        logger.error(f"Validation error creating support_messages: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        logger.error(f"Error creating products: {str(e)}", exc_info=True)
+        logger.error(f"Error creating support_messages: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
-@router.post("/batch", response_model=List[ProductsResponse], status_code=201)
-async def create_productss_batch(
-    request: ProductsBatchCreateRequest,
+@router.post("/batch", response_model=List[Support_messagesResponse], status_code=201)
+async def create_support_messagess_batch(
+    request: Support_messagesBatchCreateRequest,
     db: AsyncSession = Depends(get_db),
 ):
-    """Create multiple productss in a single request"""
-    logger.debug(f"Batch creating {len(request.items)} productss")
+    """Create multiple support_messagess in a single request"""
+    logger.debug(f"Batch creating {len(request.items)} support_messagess")
     
-    service = ProductsService(db)
+    service = Support_messagesService(db)
     results = []
     
     try:
@@ -221,7 +215,7 @@ async def create_productss_batch(
             if result:
                 results.append(result)
         
-        logger.info(f"Batch created {len(results)} productss successfully")
+        logger.info(f"Batch created {len(results)} support_messagess successfully")
         return results
     except Exception as e:
         await db.rollback()
@@ -229,15 +223,15 @@ async def create_productss_batch(
         raise HTTPException(status_code=500, detail=f"Batch create failed: {str(e)}")
 
 
-@router.put("/batch", response_model=List[ProductsResponse])
-async def update_productss_batch(
-    request: ProductsBatchUpdateRequest,
+@router.put("/batch", response_model=List[Support_messagesResponse])
+async def update_support_messagess_batch(
+    request: Support_messagesBatchUpdateRequest,
     db: AsyncSession = Depends(get_db),
 ):
-    """Update multiple productss in a single request"""
-    logger.debug(f"Batch updating {len(request.items)} productss")
+    """Update multiple support_messagess in a single request"""
+    logger.debug(f"Batch updating {len(request.items)} support_messagess")
     
-    service = ProductsService(db)
+    service = Support_messagesService(db)
     results = []
     
     try:
@@ -248,7 +242,7 @@ async def update_productss_batch(
             if result:
                 results.append(result)
         
-        logger.info(f"Batch updated {len(results)} productss successfully")
+        logger.info(f"Batch updated {len(results)} support_messagess successfully")
         return results
     except Exception as e:
         await db.rollback()
@@ -256,45 +250,45 @@ async def update_productss_batch(
         raise HTTPException(status_code=500, detail=f"Batch update failed: {str(e)}")
 
 
-@router.put("/{id}", response_model=ProductsResponse)
-async def update_products(
+@router.put("/{id}", response_model=Support_messagesResponse)
+async def update_support_messages(
     id: int,
-    data: ProductsUpdateData,
+    data: Support_messagesUpdateData,
     db: AsyncSession = Depends(get_db),
 ):
-    """Update an existing products"""
-    logger.debug(f"Updating products {id} with data: {data}")
+    """Update an existing support_messages"""
+    logger.debug(f"Updating support_messages {id} with data: {data}")
 
-    service = ProductsService(db)
+    service = Support_messagesService(db)
     try:
         # Only include non-None values for partial updates
         update_dict = {k: v for k, v in data.model_dump().items() if v is not None}
         result = await service.update(id, update_dict)
         if not result:
-            logger.warning(f"Products with id {id} not found for update")
-            raise HTTPException(status_code=404, detail="Products not found")
+            logger.warning(f"Support_messages with id {id} not found for update")
+            raise HTTPException(status_code=404, detail="Support_messages not found")
         
-        logger.info(f"Products {id} updated successfully")
+        logger.info(f"Support_messages {id} updated successfully")
         return result
     except HTTPException:
         raise
     except ValueError as e:
-        logger.error(f"Validation error updating products {id}: {str(e)}")
+        logger.error(f"Validation error updating support_messages {id}: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        logger.error(f"Error updating products {id}: {str(e)}", exc_info=True)
+        logger.error(f"Error updating support_messages {id}: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
 @router.delete("/batch")
-async def delete_productss_batch(
-    request: ProductsBatchDeleteRequest,
+async def delete_support_messagess_batch(
+    request: Support_messagesBatchDeleteRequest,
     db: AsyncSession = Depends(get_db),
 ):
-    """Delete multiple productss by their IDs"""
-    logger.debug(f"Batch deleting {len(request.ids)} productss")
+    """Delete multiple support_messagess by their IDs"""
+    logger.debug(f"Batch deleting {len(request.ids)} support_messagess")
     
-    service = ProductsService(db)
+    service = Support_messagesService(db)
     deleted_count = 0
     
     try:
@@ -303,8 +297,8 @@ async def delete_productss_batch(
             if success:
                 deleted_count += 1
         
-        logger.info(f"Batch deleted {deleted_count} productss successfully")
-        return {"message": f"Successfully deleted {deleted_count} productss", "deleted_count": deleted_count}
+        logger.info(f"Batch deleted {deleted_count} support_messagess successfully")
+        return {"message": f"Successfully deleted {deleted_count} support_messagess", "deleted_count": deleted_count}
     except Exception as e:
         await db.rollback()
         logger.error(f"Error in batch delete: {str(e)}", exc_info=True)
@@ -312,24 +306,24 @@ async def delete_productss_batch(
 
 
 @router.delete("/{id}")
-async def delete_products(
+async def delete_support_messages(
     id: int,
     db: AsyncSession = Depends(get_db),
 ):
-    """Delete a single products by ID"""
-    logger.debug(f"Deleting products with id: {id}")
+    """Delete a single support_messages by ID"""
+    logger.debug(f"Deleting support_messages with id: {id}")
     
-    service = ProductsService(db)
+    service = Support_messagesService(db)
     try:
         success = await service.delete(id)
         if not success:
-            logger.warning(f"Products with id {id} not found for deletion")
-            raise HTTPException(status_code=404, detail="Products not found")
+            logger.warning(f"Support_messages with id {id} not found for deletion")
+            raise HTTPException(status_code=404, detail="Support_messages not found")
         
-        logger.info(f"Products {id} deleted successfully")
-        return {"message": "Products deleted successfully", "id": id}
+        logger.info(f"Support_messages {id} deleted successfully")
+        return {"message": "Support_messages deleted successfully", "id": id}
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"Error deleting products {id}: {str(e)}", exc_info=True)
+        logger.error(f"Error deleting support_messages {id}: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")

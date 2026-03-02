@@ -1,5 +1,5 @@
 {
-    "title": "products",
+    "title": "support_messages",
     "type": "object",
     "properties": {
         "id": {
@@ -8,23 +8,15 @@
         },
         "name": {
             "type": "string",
-            "description": "Product name"
+            "description": "Sender name"
         },
-        "price": {
-            "type": "number",
-            "description": "Product price in NOK"
-        },
-        "description": {
+        "email": {
             "type": "string",
-            "description": "Product description"
+            "description": "Sender email"
         },
-        "category": {
+        "message": {
             "type": "string",
-            "description": "Product category"
-        },
-        "image_url": {
-            "type": "string",
-            "description": "Product image URL"
+            "description": "Support message content"
         },
         "created_at": {
             "type": "string",
@@ -35,6 +27,7 @@
     "required": [
         "id",
         "name",
-        "price"
+        "email",
+        "message"
     ]
 }

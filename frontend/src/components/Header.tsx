@@ -1,4 +1,4 @@
-import { ShoppingCart, Droplets, Menu, X, User, LogOut, ClipboardList, Sparkles } from 'lucide-react';
+import { ShoppingCart, Droplets, Menu, X, User, LogOut, ClipboardList, Sparkles, Settings, MessageSquare } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -79,6 +79,9 @@ export default function Header() {
             <button onClick={() => navigate('/ai-writer')} className="text-gray-300 hover:text-[#C9A96E] transition-colors text-sm font-medium flex items-center gap-1">
               <Sparkles className="w-3.5 h-3.5" /> AI Annonser
             </button>
+            <button onClick={() => scrollTo('support')} className="text-gray-300 hover:text-[#C9A96E] transition-colors text-sm font-medium flex items-center gap-1">
+              <MessageSquare className="w-3.5 h-3.5" /> Kontakt
+            </button>
           </nav>
 
           {/* Cart + Auth + Mobile Menu */}
@@ -118,6 +121,12 @@ export default function Header() {
                       className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-[#F8F6F2] transition-colors"
                     >
                       <Sparkles className="w-4 h-4 text-[#C9A96E]" /> AI Annonsegenerator
+                    </button>
+                    <button
+                      onClick={() => { navigate('/admin'); setShowUserMenu(false); }}
+                      className="w-full flex items-center gap-2.5 px-4 py-2.5 text-sm text-gray-700 hover:bg-[#F8F6F2] transition-colors"
+                    >
+                      <Settings className="w-4 h-4 text-[#C9A96E]" /> Admin Panel
                     </button>
                     <hr className="my-1 border-gray-100" />
                     <button
@@ -168,6 +177,9 @@ export default function Header() {
             </button>
             <button onClick={() => { navigate('/ai-writer'); setMobileMenuOpen(false); }} className="block w-full text-left text-gray-300 hover:text-[#C9A96E] transition-colors text-sm font-medium py-2 flex items-center gap-1">
               <Sparkles className="w-3.5 h-3.5" /> AI Annonser
+            </button>
+            <button onClick={() => scrollTo('support')} className="block w-full text-left text-gray-300 hover:text-[#C9A96E] transition-colors text-sm font-medium py-2 flex items-center gap-1">
+              <MessageSquare className="w-3.5 h-3.5" /> Kontakt
             </button>
             {user && (
               <button onClick={() => { navigate('/orders'); setMobileMenuOpen(false); }} className="block w-full text-left text-gray-300 hover:text-[#C9A96E] transition-colors text-sm font-medium py-2 flex items-center gap-1">

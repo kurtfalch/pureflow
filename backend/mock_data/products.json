@@ -1,14 +1,26 @@
 [
     {
-        "name": "Pure Flow",
-        "description": "Forvandle din daglige dusj til et øyeblikk av ren luksus. Pure Flow kombinerer kraftig vanntrykk med avansert flertrinnsfiltreringsteknologi og en eksklusiv VC Plant Fragrance Filter Cartridge som frigjør en subtil, forfriskende duft. Opplev forskjellen med vann som er renset for bakterier, kalk og urenheter – hver eneste gang du dusjer. Pure Flow er mer enn et dusjhode – det er din personlige spa-opplevelse hjemme. Det avanserte filteret bidrar til merkbart bedre vannkvalitet, mens den naturlige duften fra VC Plant Fragrance-patronen skaper en rolig og oppløftende atmosfære.",
-        "short_description": "Luksuriøs filtrering og duft i ett – din daglige spa-opplevelse",
-        "price": 1177.0,
-        "original_price": 1766.0,
-        "image_url": "/assets/pureflow1.png",
-        "image_url_2": "/assets/pureflow2.png",
-        "image_url_3": "/assets/pureflow3.png",
-        "features": "[\"Flere filtreringstrinn – reduserer urenheter og klor i vannet\", \"VC Plant Fragrance Filter Cartridge – mild, naturlig duft\", \"Høyt vanntrykk – konsentrerte dyser for kraftig vannstrøm\", \"Universaltilkobling – passer alle standard dusjslanger\"]",
-        "category": "dusjhode"
+        "name": "Pure Flow Dusjhode",
+        "price": 899,
+        "description": "Opplev luksuriøs dusjopplevelse med Pure Flow. Avansert filtreringsteknologi fjerner klor og urenheter, mens mikrodysene gir et silkemykt vanntrykk. Perfekt for deg som verdsetter kvalitet og velvære.",
+        "category": "Dusjhoder",
+        "image_url": "/images/Showerhead.jpg",
+        "created_at": "2026-03-01 10:00:00"
+    },
+    {
+        "name": "Pure Flow Dusjhode + Ekstra Filter",
+        "price": 1199,
+        "description": "Komplett pakke med Pure Flow dusjhode og et ekstra utskiftningsfilter. Spar penger og sikre ren, frisk dusj i opptil 12 måneder. Det ultimate valget for hele familien.",
+        "category": "Pakker",
+        "image_url": "/images/PureFlowShowerHead.jpg",
+        "created_at": "2026-03-01 10:00:00"
+    },
+    {
+        "name": "Pure Flow Filterabonnement",
+        "price": 149,
+        "description": "Månedlig filterabonnement – få et nytt utskiftningsfilter levert rett hjem hver 3. måned. Aldri bekymre deg for vannkvaliteten igjen.",
+        "category": "Abonnement",
+        "image_url": "/images/WaterFilterSubscription.jpg",
+        "created_at": "2026-03-01 10:00:00"
     }
 ]

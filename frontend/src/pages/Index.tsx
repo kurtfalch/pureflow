@@ -3,6 +3,7 @@ import { Droplets, Shield, Wind, Link2, Sparkles, Star, ChevronDown, ArrowRight,
 import Header from '@/components/Header';
 import CartDrawer from '@/components/CartDrawer';
 import PricingSection from '@/components/PricingSection';
+import SupportSection from '@/components/SupportSection';
 import client from '@/lib/api';
 
 interface Product {
@@ -616,6 +617,9 @@ export default function IndexPage() {
           </button>
         </div>
       </section>
+
+      {/* Support / Contact Section */}
+      <SupportSection />
 
       {/* Footer */}
       <footer className="bg-[#0C1B2A] py-12 border-t border-gray-800">

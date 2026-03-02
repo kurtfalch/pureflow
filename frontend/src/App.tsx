@@ -8,6 +8,7 @@ import Checkout from './pages/Checkout';
 import PaymentSuccess from './pages/PaymentSuccess';
 import AiWriter from './pages/AiWriter';
 import OrderHistory from './pages/OrderHistory';
+import Admin from './pages/Admin';
 import AuthCallback from './pages/AuthCallback';
 import AuthError from './pages/AuthError';
 import NotFound from './pages/NotFound';
@@ -26,6 +27,7 @@ const App = () => (
             <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="/ai-writer" element={<AiWriter />} />
             <Route path="/orders" element={<OrderHistory />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/auth/callback" element={<AuthCallback />} />
             <Route path="/auth/error" element={<AuthError />} />
             <Route path="*" element={<NotFound />} />
