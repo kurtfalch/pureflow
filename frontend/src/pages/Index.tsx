@@ -356,12 +356,6 @@ export default function IndexPage() {
                 ))}
               </div>
 
-              <button
-                onClick={scrollToPricing}
-                className="w-full sm:w-auto bg-[#C9A96E] hover:bg-[#B8944D] text-[#0C1B2A] font-bold py-4 px-10 rounded-xl text-lg transition-all duration-300 shadow-lg shadow-[#C9A96E]/30 flex items-center justify-center gap-2"
-              >
-                Velg pakke og bestill <ArrowRight className="w-5 h-5" />
-              </button>
             </div>
           </div>
         </div>
